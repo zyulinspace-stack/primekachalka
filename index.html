@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Прайм Качалка</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+  :root{--bg:#0c0c0e;--panel:#151519;--panel2:#1e1e24;--yellow:#FFD400;--ink:#0c0c0e;
+    --white:#f4f4f5;--muted:#8a8a93;--green:#2FA97B;--red:#ff6b6b}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+  html,body{background:var(--bg);color:var(--white);font-family:-apple-system,'Segoe UI',Roboto,sans-serif;overflow-x:hidden}
+  .wrap{max-width:480px;margin:0 auto;padding:12px 16px 88px;min-height:100vh}
+  .hidden{display:none!important}
+  .brandbar{display:flex;align-items:center;gap:8px;justify-content:center;margin:2px 0 8px}
+  .brandbar b{font-weight:900;letter-spacing:1px;font-size:13px}.brandbar .yl{color:var(--yellow)}
+  .sub{color:var(--muted);font-size:13px;line-height:1.5}
+  h2{font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:.4px}
+  .cta{display:block;width:100%;background:var(--yellow);color:var(--ink);border:none;border-radius:14px;
+    padding:15px;font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;margin-top:12px}
+  .cta:disabled{background:#33333a;color:#6d6d77}
+  .cta.ghost{background:transparent;color:var(--muted);border:1.5px solid #33333a}
+  .cta.green{background:var(--green);color:#06231a}
+
+  /* Тап-экран */
+  .statrow{display:flex;gap:10px;margin-bottom:10px}
+  .stat{flex:1;background:var(--panel);border:1px solid #24242c;border-radius:14px;padding:10px;text-align:center}
+  .stat .n{color:var(--yellow);font-weight:900;font-size:22px;line-height:1}
+  .stat .l{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
+  .stagebar{background:var(--panel);border:1px solid #24242c;border-radius:12px;padding:9px 13px;margin-bottom:8px;font-size:12px;display:flex;justify-content:space-between;align-items:center}
+  .stagebar b{color:var(--yellow)}
+  .taparea{position:relative;height:300px;display:flex;align-items:center;justify-content:center;margin:6px 0;cursor:pointer}
+  .rhino{font-size:150px;line-height:1;transition:transform .06s;filter:drop-shadow(0 10px 30px rgba(255,212,0,.15))}
+  .taparea.beast .rhino{filter:drop-shadow(0 0 30px rgba(224,102,46,.7))}
+  .taparea:active .rhino{transform:scale(.93)}
+  .exercise{position:absolute;top:6px;left:0;right:0;text-align:center;font-size:13px;color:var(--muted);font-weight:700}
+  .exercise .ex{color:var(--white)}
+  .taphint{position:absolute;bottom:2px;left:0;right:0;text-align:center;color:var(--muted);font-size:12px}
+  .float{position:absolute;font-weight:900;font-size:26px;color:var(--yellow);pointer-events:none;
+    animation:fly .8s ease-out forwards;z-index:5}
+  @keyframes fly{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-70px)}}
+  .comm{margin-top:6px}
+  .comm .ct{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
+  .comm .ct b{color:var(--yellow)}
+  .bar{height:14px;border-radius:8px;background:#24242c;overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#FFD400,#E0662E);transition:width .4s}
+
+  /* Задания / рейтинг */
+  .card{background:var(--panel);border:1px solid #24242c;border-radius:14px;padding:14px;margin-bottom:12px}
+  .card .h{font-weight:900;font-size:15px;margin-bottom:4px}
+  .card .d{color:var(--muted);font-size:13px;line-height:1.45}
+  .day{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .chk{background:var(--yellow);color:var(--ink);border:none;border-radius:10px;padding:9px 14px;font-weight:900;font-size:13px;cursor:pointer;flex:none;text-transform:uppercase}
+  .chk:disabled{background:#2c2c33;color:#6d6d77}
+  .quizq{background:var(--panel);border:1px solid #24242c;border-radius:14px;padding:13px;margin-bottom:10px}
+  .quizq .qq{font-size:14px;font-weight:800;margin-bottom:9px;line-height:1.3}
+  .qo{display:block;width:100%;text-align:left;background:var(--panel2);border:1.5px solid transparent;color:var(--white);
+    border-radius:10px;padding:11px 13px;font-size:13px;margin-bottom:7px;cursor:pointer}
+  .qo.correct{border-color:var(--green);background:#12251d;color:#7fe0bd}
+  .qo.wrong{border-color:#a33;background:#2a1414;color:#ffb0b0}
+  .row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #1c1c22;font-size:14px}
+  .row:last-child{border-bottom:none}
+  .row .pos{width:26px;font-weight:900;color:var(--muted);text-align:center}
+  .row .pos.top{color:var(--yellow)}
+  .row .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .row .pts{color:var(--yellow);font-weight:800}
+  .promo{background:#2a2a1c;border:1px solid var(--yellow);border-radius:10px;padding:9px 12px;margin-bottom:8px;font-size:13px}
+  .promo code{color:var(--yellow);font-weight:900;font-size:15px}
+  .err{color:var(--red);font-size:12px;text-align:center;margin-top:8px;min-height:14px}
+
+  .toast{position:fixed;left:16px;right:16px;top:10px;max-width:448px;margin:0 auto;background:var(--panel2);
+    border:2px solid var(--yellow);border-radius:14px;padding:13px 15px;transform:translateY(-200%);
+    transition:transform .4s cubic-bezier(.2,.9,.3,1.2);z-index:60;display:flex;align-items:center;gap:12px}
+  .toast.on{transform:translateY(0)}.toast .em{font-size:30px}.toast .tt{font-weight:900;font-size:14px}.toast .ts{color:var(--muted);font-size:12px}
+
+  .nav{position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;height:66px;background:#0a0a0c;
+    border-top:1px solid #1c1c22;display:flex;align-items:center;justify-content:space-around;padding-bottom:calc(3px + env(safe-area-inset-bottom))}
+  .nav a{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--muted);font-size:10px;text-decoration:none;font-weight:700;cursor:pointer}
+  .nav a.act{color:var(--yellow)}.nav a .ic{font-size:20px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brandbar">🦏 <b>PRIME<span class="yl">KRAFT</span></b> · <b class="yl">ПРАЙМ КАЧАЛКА</b></div>
+
+  <!-- ЭКРАН ТАПА -->
+  <div id="tapScreen" class="hidden">
+    <div class="statrow">
+      <div class="stat"><div class="n" id="taps">0</div><div class="l">повторений</div></div>
+      <div class="stat"><div class="n" id="points">0</div><div class="l">баллов · <span id="rank">—</span> место</div></div>
+    </div>
+    <div class="stagebar"><span id="stageLabel">Разминается</span><span>до след. стадии: <b id="stageLeft">—</b></span></div>
+    <div class="taparea" id="taparea">
+      <div class="exercise">Упражнение: <span class="ex" id="exName">—</span></div>
+      <div class="rhino" id="rhino">🦏</div>
+      <div class="taphint">Тапай по носорогу 👆</div>
+    </div>
+    <div class="comm card" style="padding:12px 14px">
+      <div class="ct"><span>🏆 Общий челлендж комьюнити</span><span><b id="commNow">0</b> / <span id="commGoal">1 000 000</span></span></div>
+      <div class="bar"><i id="commBar" style="width:0%"></i></div>
+    </div>
+    <button class="cta" onclick="openLink(SHOP)">🛒 В магазин Primekraft</button>
+    <div class="err" id="tapErr"></div>
+  </div>
+
+  <!-- ЗАДАНИЯ -->
+  <div id="tasksScreen" class="hidden">
+    <div class="card">
+      <div class="day">
+        <div><div class="h">✅ Ежедневный чек-ин</div><div class="d" id="chkHint">+100 баллов за заход</div></div>
+        <button class="chk" id="chkBtn">Отметиться</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="h">📣 Подпишись на канал</div>
+      <div class="d">Разовый бонус <b>+300 баллов</b> за подписку на канал PRIMEKRAFT.</div>
+      <button class="cta green" id="subBtn" style="margin-top:10px">Подписаться и забрать +300</button>
+    </div>
+    <div class="card">
+      <div class="h">🎁 Приглашай друзей</div>
+      <div class="d">+200 баллов за каждого, кто зайдёт по твоей ссылке.</div>
+      <button class="cta" id="refBtn" style="margin-top:10px;background:#2FA97B;color:#06231a">Поделиться ссылкой</button>
+    </div>
+    <h2 style="margin:4px 0 8px">🧠 Викторина по спортпиту</h2>
+    <div class="sub" style="margin-bottom:10px">За правильный ответ — баллы. Один ответ на вопрос.</div>
+    <div id="quizBox"></div>
+  </div>
+
+  <!-- РЕЙТИНГ -->
+  <div id="rankScreen" class="hidden">
+    <div class="comm card" style="padding:12px 14px">
+      <div class="ct"><span>🏆 Собрано комьюнити</span><span><b id="commNow2">0</b> / <span id="commGoal2">1 000 000</span></span></div>
+      <div class="bar"><i id="commBar2" style="width:0%"></i></div>
+    </div>
+    <div class="card" style="text-align:center">Твоё место: <b class="yl" id="myRank">—</b> · <span id="myPts">0</span> баллов</div>
+    <h2 style="margin:4px 0 8px">Топ-20 игроков</h2>
+    <div class="card" id="lbBox"></div>
+    <div class="sub" style="margin-top:8px">Топ-3 на финале 27 августа: сертификаты 3000/2000/1000 ₽ + боксы новинок. Среди всех — розыгрыш 10×1000 ₽.</div>
+  </div>
+
+  <div id="loading" class="sub" style="text-align:center;padding-top:60px">Загрузка…</div>
+  <div id="gate" class="hidden" style="text-align:center;padding-top:50px">
+    <div style="font-size:80px">🦏</div>
+    <h2 id="gateTitle" style="margin:14px 0 8px"></h2>
+    <div class="sub" id="gateText"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><div class="em" id="tEm">🎁</div><div><div class="tt" id="tT"></div><div class="ts" id="tS"></div></div></div>
+
+<div class="nav hidden" id="nav">
+  <a id="navTap" class="act" onclick="go('tap')"><span class="ic">🦏</span>Качать</a>
+  <a id="navTasks" onclick="go('tasks')"><span class="ic">✅</span>Задания</a>
+  <a id="navRank" onclick="go('rank')"><span class="ic">🏆</span>Рейтинг</a>
+  <a onclick="openLink(SHOP)"><span class="ic">🛒</span>Магазин</a>
+</div>
+
+<script>
+const tg = window.Telegram ? window.Telegram.WebApp : null;
+if(tg){ tg.ready(); tg.expand(); if(tg.disableVerticalSwipes) tg.disableVerticalSwipes(); }
+const INIT = tg ? tg.initData : "";
+const $ = id => document.getElementById(id);
+let SHOP = "https://primekraft.ru/";
+function openLink(u){ if(tg&&tg.openLink) tg.openLink(u); else window.open(u,"_blank"); }
+const EX_EMOJI = ["🏋️","🏋️‍♂️","🦵","🥊","⛓️"];
+const nf = n => (n||0).toLocaleString("ru-RU");
+
+async function api(path, method="GET", body=null){
+  const headers = {"X-Init-Data": INIT};
+  if(!INIT) headers["X-Dev-Id"]="1001";
+  if(body) headers["Content-Type"]="application/json";
+  const r = await fetch(path,{method,headers,body:body?JSON.stringify(body):null});
+  if(!r.ok){ let m="Ошибка"; try{m=(await r.json()).detail||m}catch(e){} throw new Error(m); }
+  return r.json();
+}
+function toast(em,t,s){ $("tEm").textContent=em; $("tT").textContent=t; $("tS").textContent=s||"";
+  $("toast").classList.add("on"); setTimeout(()=>$("toast").classList.remove("on"),2600); }
+
+const SCREENS=["tapScreen","tasksScreen","rankScreen","loading","gate"];
+function show(id){ SCREENS.forEach(s=>$(s).classList.add("hidden")); $(id).classList.remove("hidden"); }
+function go(where){
+  const scr={tap:"tapScreen",tasks:"tasksScreen",rank:"rankScreen"};
+  if(where==="tasks"){ renderQuiz(); paintTasks(); }
+  if(where==="rank"){ loadLeaderboard(); }
+  show(scr[where]);
+  const nm={tap:"navTap",tasks:"navTasks",rank:"navRank"};
+  ["navTap","navTasks","navRank"].forEach(id=>$(id).classList.remove("act"));
+  $(nm[where]).classList.add("act");
+}
+
+let ME=null, CFG=null;
+let pending=0, localTaps=0, sending=false;
+
+function paintCommunity(now){
+  const pct=Math.min(100, now/CFG.goal*100);
+  ["commBar","commBar2"].forEach(id=>{ if($(id)) $(id).style.width=pct+"%"; });
+  ["commNow","commNow2"].forEach(id=>{ if($(id)) $(id).textContent=nf(now); });
+}
+function paintStage(taps, stage, ex, nextAt){
+  $("exName").textContent=ex;
+  $("stageLabel").textContent=(ME&&ME.stage_label)?ME.stage_label:"";
+  const em = stage>=4 ? "🦏🔥" : "🦏";
+  $("rhino").textContent = em;
+  $("taparea").classList.toggle("beast", stage>=4);
+  $("stageLeft").textContent = nextAt? nf(Math.max(0,nextAt-taps)) : "МАКС 🔥";
+}
+function paintTap(){
+  $("taps").textContent=nf(localTaps);
+  $("points").textContent=nf(ME.points);
+  $("rank").textContent=ME.rank;
+  paintStage(localTaps, ME.stage, ME.stage_ex, ME.next_stage_at);
+  paintCommunity(ME.community);
+}
+
+// тап
+function onTap(e){
+  if(CFG.state!=="live"){ return; }
+  localTaps++; pending++;
+  $("taps").textContent=nf(localTaps);
+  if(tg&&tg.HapticFeedback) tg.HapticFeedback.impactOccurred("light");
+  const t=e.touches? e.touches[0] : e;
+  const f=document.createElement("div"); f.className="float"; f.textContent="+1";
+  const r=$("taparea").getBoundingClientRect();
+  f.style.left=((t?t.clientX:r.left+r.width/2)-r.left-8)+"px";
+  f.style.top=((t?t.clientY:r.top+r.height/2)-r.top-20)+"px";
+  $("taparea").appendChild(f); setTimeout(()=>f.remove(),800);
+}
+async function flush(){
+  if(sending || pending<=0 || !CFG || CFG.state!=="live") return;
+  sending=true; const n=pending; pending=0;
+  try{
+    const r=await api("/api/tap","POST",{n});
+    localTaps=r.taps; ME.taps=r.taps; ME.points=r.points; ME.stage=r.stage; ME.stage_ex=r.stage_ex; ME.next_stage_at=r.next_stage_at; ME.community=r.community;
+    $("points").textContent=nf(r.points); $("rank").textContent="…";
+    paintStage(r.taps, r.stage, r.stage_ex, r.next_stage_at); paintCommunity(r.community);
+    if(r.loot){ showLoot(r.loot); }
+  }catch(e){ /* тихо */ }
+  sending=false;
+}
+function showLoot(loot){
+  if(loot.type==="points"){ toast("⚡", loot.title, "Лут-дроп!"); }
+  else { toast("🎟️", "Промокод "+loot.code, loot.desc+" · "+loot.ttl_h+" ч"); }
+}
+setInterval(flush, 800);
+
+// задания
+function paintTasks(){
+  const ci=ME.checked_in_today;
+  $("chkBtn").disabled=ci; $("chkBtn").textContent=ci?"Готово":"Отметиться";
+  $("chkHint").textContent=(ME.streak>0?("🔥 Серия "+ME.streak+" дн. · "):"")+(ci?"отметка есть":"+100 за заход");
+  $("subBtn").disabled=ME.sub_ok; if(ME.sub_ok) $("subBtn").textContent="Подписка засчитана ✓";
+}
+$("chkBtn").onclick=async()=>{ $("chkBtn").disabled=true;
+  try{ const r=await api("/api/checkin","POST",{}); ME.points+=r.added; ME.checked_in_today=true; ME.streak=r.streak;
+    toast("✅","+"+r.added+" баллов", r.bonus>0?("🔥 бонус серии +"+r.bonus):"Возвращайся завтра"); paintTasks(); }
+  catch(e){ toast("⚠️",e.message,""); $("chkBtn").disabled=false; } };
+$("subBtn").onclick=async()=>{
+  if(ME.channel){ openLink("https://t.me/"+ME.channel.replace("@","")); }
+  try{ const r=await api("/api/subscribe","POST",{});
+    if(r.ok){ if(!r.already){ ME.points+=(r.added||0); toast("📣","+"+(r.added||0)+" баллов","Спасибо за подписку!"); } ME.sub_ok=true; paintTasks(); }
+    else { toast("👀","Не вижу подписки","Подпишись на канал и нажми ещё раз"); }
+  }catch(e){ toast("⚠️",e.message,""); } };
+$("refBtn").onclick=()=>{
+  if(!ME||!ME.referral_link) return;
+  const share="https://t.me/share/url?url="+encodeURIComponent(ME.referral_link)+
+    "&text="+encodeURIComponent("Качаю носорога в «Прайм Качалке» от PRIMEKRAFT 🦏 Залетай — тапай и лови призы!");
+  if(tg&&tg.openTelegramLink) tg.openTelegramLink(share); else openLink(share);
+};
+
+async function renderQuiz(){
+  const d=await api("/api/quizzes");
+  const answered=d.questions.filter(q=>q.answered);
+  const open=d.questions.filter(q=>!q.answered).slice(0, d.remaining);
+  const head = d.remaining>0
+    ? `<div class="sub" style="margin-bottom:8px;color:var(--yellow);font-weight:800">Вопрос дня · осталось ${d.remaining} из ${d.daily_limit}</div>`
+    : `<div class="sub" style="margin-bottom:8px;color:var(--yellow);font-weight:800">На сегодня всё — заходи завтра 💪</div>`;
+  function active(q){
+    const idx=q.options.map((_,i)=>i);
+    for(let i=idx.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}
+    return `<div class="quizq" data-id="${q.id}"><div class="qq">${q.q}</div>`+
+      idx.map(i=>`<button class="qo" data-i="${i}">${q.options[i]}</button>`).join("")+`</div>`;
+  }
+  function done(q){
+    return `<div class="quizq"><div class="qq">${q.q}</div>`+
+      q.options.map((o,i)=>`<div class="qo ${i===q.correct_index?'correct':''}">${o}${i===q.correct_index?' ✓':''}</div>`).join("")+
+      `<div class="sub" style="color:${q.was_correct?'#2FA97B':'#ff6b6b'};margin-top:2px">${q.was_correct?'Верно · +'+d.points:'Был неверный ответ'}</div></div>`;
+  }
+  $("quizBox").innerHTML = head + open.map(active).join("") +
+    (answered.length?`<div class="sub" style="margin:12px 0 6px;font-weight:800">Пройденные</div>`:"") + answered.map(done).join("");
+  $("quizBox").querySelectorAll(".quizq[data-id]").forEach(card=>{
+    card.querySelectorAll(".qo").forEach(b=>b.onclick=async()=>{
+      card.querySelectorAll(".qo").forEach(x=>x.disabled=true);
+      try{ const r=await api("/api/quiz_answer","POST",{id:+card.dataset.id, choice:+b.dataset.i});
+        card.querySelectorAll(".qo").forEach(x=>{ if(+x.dataset.i===r.correct_index) x.classList.add("correct"); });
+        if(!r.correct) b.classList.add("wrong");
+        if(r.correct) ME.points+=r.added;
+        toast(r.correct?"✅":"❌", r.correct?("Верно! +"+r.added):"Мимо", r.correct?"Баллы зачислены":"Правильный подсвечен");
+        setTimeout(renderQuiz, 1200);
+      }catch(e){ toast("⚠️",e.message,""); card.querySelectorAll(".qo").forEach(x=>x.disabled=false); }
+    });
+  });
+}
+
+async function loadLeaderboard(){
+  const d=await api("/api/leaderboard");
+  paintCommunity(d.community);
+  $("myRank").textContent=d.me_rank; $("myPts").textContent=nf(d.me_points);
+  $("lbBox").innerHTML=d.top.map((t,i)=>`<div class="row"><span class="pos ${i<3?'top':''}">${i<3?['🥇','🥈','🥉'][i]:(i+1)}</span>
+    <span class="nm">${t.first_name||'Игрок'}</span><span class="pts">${nf(t.points)}</span></div>`).join("") || '<div class="sub">Пока пусто — стань первым!</div>';
+}
+
+function gate(title, textHtml){ $("gateTitle").textContent=title; $("gateText").innerHTML=textHtml; $("nav").classList.add("hidden"); show("gate"); }
+
+async function boot(){
+  CFG=await api("/api/config"); SHOP=CFG.shop||SHOP;
+  $("commGoal").textContent=nf(CFG.goal); if($("commGoal2")) $("commGoal2").textContent=nf(CFG.goal);
+  ME=await api("/api/me");
+  await checkReferral();
+  if(CFG.state==="before"){ gate("Скоро старт!", "Прайм Качалка стартует <b>20 августа</b>. Возвращайся качать носорога и бить рекорд на 1 000 000 повторений 🦏"); return; }
+  if(CFG.state==="frozen"){ $("nav").classList.remove("hidden"); localTaps=ME.taps; paintTap(); go("rank");
+    toast("🏁","Игра завершена","Итоги — на финальном эфире"); return; }
+  localTaps=ME.taps; paintTap();
+  $("nav").classList.remove("hidden"); go("tap");
+  const a=$("taparea");
+  a.addEventListener("touchstart",e=>{e.preventDefault();for(let i=0;i<e.changedTouches.length;i++)onTap(e.changedTouches[i]);},{passive:false});
+  a.addEventListener("mousedown",onTap);
+  // обновляем ранг после серии тапов
+  setInterval(async()=>{ if(CFG.state==="live"){ try{const m=await api("/api/me"); ME.rank=m.rank; ME.points=m.points; if(!$("tapScreen").classList.contains("hidden")){$("rank").textContent=m.rank;$("points").textContent=nf(m.points);} }catch(e){} } }, 5000);
+}
+let refDone=false;
+async function checkReferral(){
+  if(refDone) return; refDone=true;
+  const sp=(tg&&tg.initDataUnsafe)?tg.initDataUnsafe.start_param:"";
+  const m=/^ref(\d+)$/.exec(sp||"");
+  if(m){ try{ const r=await api("/api/referral","POST",{ref:m[1]}); if(r&&r.ok) toast("🎁","Ты пришёл по приглашению","Друг получил +200"); }catch(e){} }
+}
+boot().catch(e=>{ $("loading").textContent="Не удалось загрузить: "+e.message; });
+</script>
+</body>
+</html>

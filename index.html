@@ -10,57 +10,63 @@
     --white:#f4f4f5;--muted:#8a8a93;--green:#2FA97B;--red:#ff6b6b}
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
   html,body{background:var(--bg);color:var(--white);font-family:-apple-system,'Segoe UI',Roboto,sans-serif;overflow-x:hidden}
-  .wrap{max-width:480px;margin:0 auto;padding:12px 16px 88px;min-height:100vh}
+  .wrap{max-width:480px;margin:0 auto;padding:10px 16px 84px;min-height:100vh}
   .hidden{display:none!important}
-  .brandbar{display:flex;align-items:center;gap:8px;justify-content:center;margin:2px 0 8px}
+  .brandbar{display:flex;align-items:center;gap:7px;justify-content:center;margin:2px 0 8px}
   .brandbar b{font-weight:900;letter-spacing:1px;font-size:13px}.brandbar .yl{color:var(--yellow)}
   .sub{color:var(--muted);font-size:13px;line-height:1.5}
-  h2{font-size:18px;font-weight:900;text-transform:uppercase;letter-spacing:.4px}
+  h2{font-size:17px;font-weight:900;text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px}
   .cta{display:block;width:100%;background:var(--yellow);color:var(--ink);border:none;border-radius:14px;
-    padding:15px;font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:.5px;cursor:pointer;margin-top:12px}
+    padding:15px;font-size:15px;font-weight:900;text-transform:uppercase;letter-spacing:.4px;cursor:pointer;margin-top:12px}
   .cta:disabled{background:#33333a;color:#6d6d77}
-  .cta.ghost{background:transparent;color:var(--muted);border:1.5px solid #33333a}
   .cta.green{background:var(--green);color:#06231a}
+  .cta.blue{background:#3B82C4;color:#fff}
 
   /* Тап-экран */
   .statrow{display:flex;gap:10px;margin-bottom:10px}
-  .stat{flex:1;background:var(--panel);border:1px solid #24242c;border-radius:14px;padding:10px;text-align:center}
-  .stat .n{color:var(--yellow);font-weight:900;font-size:22px;line-height:1}
+  .stat{flex:1;background:var(--panel);border:1px solid #24242c;border-radius:14px;padding:9px 10px;text-align:center}
+  .stat .n{color:var(--yellow);font-weight:900;font-size:24px;line-height:1}
   .stat .l{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
-  .stagebar{background:var(--panel);border:1px solid #24242c;border-radius:12px;padding:9px 13px;margin-bottom:8px;font-size:12px;display:flex;justify-content:space-between;align-items:center}
-  .stagebar b{color:var(--yellow)}
-  .taparea{position:relative;height:300px;display:flex;align-items:center;justify-content:center;margin:6px 0;cursor:pointer}
-  .rhino{font-size:150px;line-height:1;transition:transform .06s;filter:drop-shadow(0 10px 30px rgba(255,212,0,.15))}
-  .taparea.beast .rhino{filter:drop-shadow(0 0 30px rgba(224,102,46,.7))}
-  .taparea:active .rhino{transform:scale(.93)}
-  .exercise{position:absolute;top:6px;left:0;right:0;text-align:center;font-size:13px;color:var(--muted);font-weight:700}
-  .exercise .ex{color:var(--white)}
-  .taphint{position:absolute;bottom:2px;left:0;right:0;text-align:center;color:var(--muted);font-size:12px}
-  .float{position:absolute;font-weight:900;font-size:26px;color:var(--yellow);pointer-events:none;
+  .stagewrap{background:var(--panel);border:1px solid #24242c;border-radius:12px;padding:9px 13px;margin-bottom:6px}
+  .stagewrap .top{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
+  .stagewrap .top b{color:var(--yellow)}
+  .minibar{height:7px;border-radius:5px;background:#24242c;overflow:hidden}
+  .minibar i{display:block;height:100%;border-radius:5px;background:var(--yellow);transition:width .3s}
+
+  .taparea{position:relative;height:290px;display:flex;align-items:center;justify-content:center;margin:2px 0;cursor:pointer;touch-action:none}
+  .glow{position:absolute;width:230px;height:230px;border-radius:50%;background:radial-gradient(circle,rgba(255,212,0,.20),transparent 70%);filter:blur(6px)}
+  .taparea.beast .glow{background:radial-gradient(circle,rgba(224,102,46,.55),transparent 70%)}
+  #rhinoImg{position:relative;width:250px;height:250px;object-fit:contain;transition:transform .07s ease-out;pointer-events:none}
+  .taparea:active #rhinoImg{transform:scale(.92)}
+  .taphint{position:absolute;bottom:-2px;left:0;right:0;text-align:center;color:var(--muted);font-size:12px;font-weight:700}
+  .taphint b{color:var(--yellow)}
+  .float{position:absolute;font-weight:900;font-size:28px;color:var(--yellow);pointer-events:none;text-shadow:0 2px 8px rgba(0,0,0,.6);
     animation:fly .8s ease-out forwards;z-index:5}
-  @keyframes fly{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-70px)}}
-  .comm{margin-top:6px}
-  .comm .ct{display:flex;justify-content:space-between;font-size:12px;margin-bottom:5px}
+  @keyframes fly{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-80px) scale(1.3)}}
+
+  .card{background:var(--panel);border:1px solid #24242c;border-radius:14px;padding:14px;margin-bottom:11px}
+  .card .h{font-weight:900;font-size:15px;margin-bottom:4px}
+  .card .d{color:var(--muted);font-size:13px;line-height:1.45}
+  .card.comm{padding:12px 14px}
+  .comm .ct{display:flex;justify-content:space-between;font-size:12px;margin-bottom:6px}
   .comm .ct b{color:var(--yellow)}
   .bar{height:14px;border-radius:8px;background:#24242c;overflow:hidden}
   .bar i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,#FFD400,#E0662E);transition:width .4s}
-
-  /* Задания / рейтинг */
-  .card{background:var(--panel);border:1px solid #24242c;border-radius:14px;padding:14px;margin-bottom:12px}
-  .card .h{font-weight:900;font-size:15px;margin-bottom:4px}
-  .card .d{color:var(--muted);font-size:13px;line-height:1.45}
   .day{display:flex;align-items:center;justify-content:space-between;gap:10px}
   .chk{background:var(--yellow);color:var(--ink);border:none;border-radius:10px;padding:9px 14px;font-weight:900;font-size:13px;cursor:pointer;flex:none;text-transform:uppercase}
   .chk:disabled{background:#2c2c33;color:#6d6d77}
-  .quizq{background:var(--panel);border:1px solid #24242c;border-radius:14px;padding:13px;margin-bottom:10px}
-  .quizq .qq{font-size:14px;font-weight:800;margin-bottom:9px;line-height:1.3}
+
+  .quizq{background:var(--panel);border:1px solid #24242c;border-radius:14px;padding:14px;margin-bottom:10px}
+  .quizq .qq{font-size:15px;font-weight:800;margin-bottom:10px;line-height:1.3}
   .qo{display:block;width:100%;text-align:left;background:var(--panel2);border:1.5px solid transparent;color:var(--white);
-    border-radius:10px;padding:11px 13px;font-size:13px;margin-bottom:7px;cursor:pointer}
+    border-radius:11px;padding:12px 14px;font-size:14px;margin-bottom:8px;cursor:pointer}
   .qo.correct{border-color:var(--green);background:#12251d;color:#7fe0bd}
   .qo.wrong{border-color:#a33;background:#2a1414;color:#ffb0b0}
-  .row{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #1c1c22;font-size:14px}
+  .pill{display:inline-block;background:#2a2a1c;color:var(--yellow);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:800;margin-bottom:10px}
+
+  .row{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid #1c1c22;font-size:14px}
   .row:last-child{border-bottom:none}
-  .row .pos{width:26px;font-weight:900;color:var(--muted);text-align:center}
+  .row .pos{width:28px;font-weight:900;color:var(--muted);text-align:center;font-size:15px}
   .row .pos.top{color:var(--yellow)}
   .row .nm{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .row .pts{color:var(--yellow);font-weight:800}
@@ -73,38 +79,44 @@
     transition:transform .4s cubic-bezier(.2,.9,.3,1.2);z-index:60;display:flex;align-items:center;gap:12px}
   .toast.on{transform:translateY(0)}.toast .em{font-size:30px}.toast .tt{font-weight:900;font-size:14px}.toast .ts{color:var(--muted);font-size:12px}
 
-  .nav{position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;height:66px;background:#0a0a0c;
+  .nav{position:fixed;bottom:0;left:0;right:0;max-width:480px;margin:0 auto;height:64px;background:#0a0a0c;
     border-top:1px solid #1c1c22;display:flex;align-items:center;justify-content:space-around;padding-bottom:calc(3px + env(safe-area-inset-bottom))}
-  .nav a{display:flex;flex-direction:column;align-items:center;gap:3px;color:var(--muted);font-size:10px;text-decoration:none;font-weight:700;cursor:pointer}
-  .nav a.act{color:var(--yellow)}.nav a .ic{font-size:20px}
+  .nav a{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--muted);font-size:10px;text-decoration:none;font-weight:700;cursor:pointer;position:relative}
+  .nav a.act{color:var(--yellow)}.nav a .ic{font-size:21px}
+  .nav a .dot{position:absolute;top:-2px;right:8px;width:8px;height:8px;border-radius:50%;background:var(--red)}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="brandbar">🦏 <b>PRIME<span class="yl">KRAFT</span></b> · <b class="yl">ПРАЙМ КАЧАЛКА</b></div>
 
-  <!-- ЭКРАН ТАПА -->
+  <!-- КАЧАТЬ -->
   <div id="tapScreen" class="hidden">
     <div class="statrow">
       <div class="stat"><div class="n" id="taps">0</div><div class="l">повторений</div></div>
       <div class="stat"><div class="n" id="points">0</div><div class="l">баллов · <span id="rank">—</span> место</div></div>
     </div>
-    <div class="stagebar"><span id="stageLabel">Разминается</span><span>до след. стадии: <b id="stageLeft">—</b></span></div>
-    <div class="taparea" id="taparea">
-      <div class="exercise">Упражнение: <span class="ex" id="exName">—</span></div>
-      <div class="rhino" id="rhino">🦏</div>
-      <div class="taphint">Тапай по носорогу 👆</div>
+    <div class="stagewrap">
+      <div class="top"><span id="stageLabel">Разминается</span><span id="stageEx" style="color:var(--yellow)">—</span></div>
+      <div class="minibar"><i id="stageFill" style="width:0%"></i></div>
+      <div class="sub" style="font-size:11px;margin-top:5px" id="stageNext"></div>
     </div>
-    <div class="comm card" style="padding:12px 14px">
-      <div class="ct"><span>🏆 Общий челлендж комьюнити</span><span><b id="commNow">0</b> / <span id="commGoal">1 000 000</span></span></div>
+    <div class="taparea" id="taparea">
+      <div class="glow"></div>
+      <img id="rhinoImg" alt="Носорог" src="">
+      <div class="taphint">Жми по носорогу — <b>+1 повторение</b> 👆</div>
+    </div>
+    <div class="card comm">
+      <div class="ct"><span>🏆 Челлендж комьюнити: собрать вместе</span><span><b id="commNow">0</b>/<span id="commGoal">1M</span></span></div>
       <div class="bar"><i id="commBar" style="width:0%"></i></div>
     </div>
     <button class="cta" onclick="openLink(SHOP)">🛒 В магазин Primekraft</button>
-    <div class="err" id="tapErr"></div>
   </div>
 
   <!-- ЗАДАНИЯ -->
   <div id="tasksScreen" class="hidden">
+    <h2>Задания за баллы</h2>
+    <div class="sub" style="margin-bottom:10px">Баллы поднимают тебя в рейтинге. Топ-3 на финале — сертификаты + боксы новинок.</div>
     <div class="card">
       <div class="day">
         <div><div class="h">✅ Ежедневный чек-ин</div><div class="d" id="chkHint">+100 баллов за заход</div></div>
@@ -112,36 +124,45 @@
       </div>
     </div>
     <div class="card">
-      <div class="h">📣 Подпишись на канал</div>
-      <div class="d">Разовый бонус <b>+300 баллов</b> за подписку на канал PRIMEKRAFT.</div>
-      <button class="cta green" id="subBtn" style="margin-top:10px">Подписаться и забрать +300</button>
+      <div class="h">📣 Подпишись на канал <span style="color:var(--yellow)">+300</span></div>
+      <div class="d">Разовый бонус за подписку на канал PRIMEKRAFT.</div>
+      <button class="cta blue" id="subBtn" style="margin-top:10px">Подписаться и забрать +300</button>
     </div>
     <div class="card">
-      <div class="h">🎁 Приглашай друзей</div>
-      <div class="d">+200 баллов за каждого, кто зайдёт по твоей ссылке.</div>
-      <button class="cta" id="refBtn" style="margin-top:10px;background:#2FA97B;color:#06231a">Поделиться ссылкой</button>
+      <div class="h">🎁 Приглашай друзей <span style="color:var(--yellow)">+200</span></div>
+      <div class="d">За каждого, кто зайдёт по твоей ссылке.</div>
+      <button class="cta green" id="refBtn" style="margin-top:10px">Поделиться ссылкой</button>
     </div>
-    <h2 style="margin:4px 0 8px">🧠 Викторина по спортпиту</h2>
-    <div class="sub" style="margin-bottom:10px">За правильный ответ — баллы. Один ответ на вопрос.</div>
+    <div class="card">
+      <div class="h">🧠 Викторина по спортпиту</div>
+      <div class="d">Отвечай на вопросы — по +50 баллов. Открой вкладку «Викторина» внизу 👇</div>
+      <button class="cta" id="toQuizBtn" style="margin-top:10px">Перейти к викторине</button>
+    </div>
+  </div>
+
+  <!-- ВИКТОРИНА -->
+  <div id="quizScreen" class="hidden">
+    <h2>🧠 Викторина</h2>
+    <div class="sub" style="margin-bottom:10px">Вопросы о продуктах Primekraft и спортпите. За правильный ответ — <b style="color:var(--yellow)">+50 баллов</b>. Один ответ на вопрос.</div>
     <div id="quizBox"></div>
   </div>
 
   <!-- РЕЙТИНГ -->
   <div id="rankScreen" class="hidden">
-    <div class="comm card" style="padding:12px 14px">
-      <div class="ct"><span>🏆 Собрано комьюнити</span><span><b id="commNow2">0</b> / <span id="commGoal2">1 000 000</span></span></div>
+    <div class="card comm">
+      <div class="ct"><span>🏆 Собрано комьюнити</span><span><b id="commNow2">0</b>/<span id="commGoal2">1M</span></span></div>
       <div class="bar"><i id="commBar2" style="width:0%"></i></div>
     </div>
     <div class="card" style="text-align:center">Твоё место: <b class="yl" id="myRank">—</b> · <span id="myPts">0</span> баллов</div>
-    <h2 style="margin:4px 0 8px">Топ-20 игроков</h2>
+    <h2 style="margin:4px 0 6px">Топ-20 игроков</h2>
     <div class="card" id="lbBox"></div>
-    <div class="sub" style="margin-top:8px">Топ-3 на финале 27 августа: сертификаты 3000/2000/1000 ₽ + боксы новинок. Среди всех — розыгрыш 10×1000 ₽.</div>
+    <div class="sub" style="margin-top:8px">🥇🥈🥉 Топ-3 на финале 27 авг: сертификаты 3000/2000/1000 ₽ + боксы. Среди всех — розыгрыш 10×1000 ₽.</div>
   </div>
 
   <div id="loading" class="sub" style="text-align:center;padding-top:60px">Загрузка…</div>
-  <div id="gate" class="hidden" style="text-align:center;padding-top:50px">
-    <div style="font-size:80px">🦏</div>
-    <h2 id="gateTitle" style="margin:14px 0 8px"></h2>
+  <div id="gate" class="hidden" style="text-align:center;padding-top:40px">
+    <img id="gateImg" style="width:180px;height:180px;object-fit:contain" alt="">
+    <h2 id="gateTitle" style="margin:10px 0 8px"></h2>
     <div class="sub" id="gateText"></div>
   </div>
 </div>
@@ -151,8 +172,8 @@
 <div class="nav hidden" id="nav">
   <a id="navTap" class="act" onclick="go('tap')"><span class="ic">🦏</span>Качать</a>
   <a id="navTasks" onclick="go('tasks')"><span class="ic">✅</span>Задания</a>
+  <a id="navQuiz" onclick="go('quiz')"><span class="ic">🧠</span>Викторина<span class="dot hidden" id="quizDot"></span></a>
   <a id="navRank" onclick="go('rank')"><span class="ic">🏆</span>Рейтинг</a>
-  <a onclick="openLink(SHOP)"><span class="ic">🛒</span>Магазин</a>
 </div>
 
 <script>
@@ -161,9 +182,10 @@ if(tg){ tg.ready(); tg.expand(); if(tg.disableVerticalSwipes) tg.disableVertical
 const INIT = tg ? tg.initData : "";
 const $ = id => document.getElementById(id);
 let SHOP = "https://primekraft.ru/";
+const RHINO_IMG = "https://d8j0ntlcm91z4.cloudfront.net/user_3F3KgyDYeiOSAVn7f4h8z7MUJVu/hf_20260815_123900_5bf9e366-e694-408d-91f7-6778e50600e7.png";
 function openLink(u){ if(tg&&tg.openLink) tg.openLink(u); else window.open(u,"_blank"); }
-const EX_EMOJI = ["🏋️","🏋️‍♂️","🦵","🥊","⛓️"];
 const nf = n => (n||0).toLocaleString("ru-RU");
+const nfShort = n => n>=1000000 ? (n/1000000).toFixed(n%1000000?1:0)+"M" : n>=1000 ? Math.round(n/1000)+"k" : ""+n;
 
 async function api(path, method="GET", body=null){
   const headers = {"X-Init-Data": INIT};
@@ -176,15 +198,17 @@ async function api(path, method="GET", body=null){
 function toast(em,t,s){ $("tEm").textContent=em; $("tT").textContent=t; $("tS").textContent=s||"";
   $("toast").classList.add("on"); setTimeout(()=>$("toast").classList.remove("on"),2600); }
 
-const SCREENS=["tapScreen","tasksScreen","rankScreen","loading","gate"];
+const SCREENS=["tapScreen","tasksScreen","quizScreen","rankScreen","loading","gate"];
 function show(id){ SCREENS.forEach(s=>$(s).classList.add("hidden")); $(id).classList.remove("hidden"); }
 function go(where){
-  const scr={tap:"tapScreen",tasks:"tasksScreen",rank:"rankScreen"};
-  if(where==="tasks"){ renderQuiz(); paintTasks(); }
-  if(where==="rank"){ loadLeaderboard(); }
+  const scr={tap:"tapScreen",tasks:"tasksScreen",quiz:"quizScreen",rank:"rankScreen"};
+  if(where==="tap") paintTap();
+  if(where==="tasks") paintTasks();
+  if(where==="quiz") renderQuiz();
+  if(where==="rank") loadLeaderboard();
   show(scr[where]);
-  const nm={tap:"navTap",tasks:"navTasks",rank:"navRank"};
-  ["navTap","navTasks","navRank"].forEach(id=>$(id).classList.remove("act"));
+  const nm={tap:"navTap",tasks:"navTasks",quiz:"navQuiz",rank:"navRank"};
+  ["navTap","navTasks","navQuiz","navRank"].forEach(id=>$(id).classList.remove("act"));
   $(nm[where]).classList.add("act");
 }
 
@@ -195,58 +219,58 @@ function paintCommunity(now){
   const pct=Math.min(100, now/CFG.goal*100);
   ["commBar","commBar2"].forEach(id=>{ if($(id)) $(id).style.width=pct+"%"; });
   ["commNow","commNow2"].forEach(id=>{ if($(id)) $(id).textContent=nf(now); });
+  ["commGoal","commGoal2"].forEach(id=>{ if($(id)) $(id).textContent=nfShort(CFG.goal); });
 }
-function paintStage(taps, stage, ex, nextAt){
-  $("exName").textContent=ex;
-  $("stageLabel").textContent=(ME&&ME.stage_label)?ME.stage_label:"";
-  const em = stage>=4 ? "🦏🔥" : "🦏";
-  $("rhino").textContent = em;
-  $("taparea").classList.toggle("beast", stage>=4);
-  $("stageLeft").textContent = nextAt? nf(Math.max(0,nextAt-taps)) : "МАКС 🔥";
+function stageBounds(taps){
+  const st=CFG.stages; let lo=0, hi=null;
+  for(let i=0;i<st.length;i++){ if(taps>=st[i].min){ lo=st[i].min; hi=(i+1<st.length)?st[i+1].min:null; } }
+  return {lo, hi};
 }
 function paintTap(){
   $("taps").textContent=nf(localTaps);
   $("points").textContent=nf(ME.points);
   $("rank").textContent=ME.rank;
-  paintStage(localTaps, ME.stage, ME.stage_ex, ME.next_stage_at);
+  $("stageLabel").textContent=ME.stage_label||"";
+  $("stageEx").textContent=ME.stage_ex||"";
+  const {lo,hi}=stageBounds(localTaps);
+  if(hi){ const pct=Math.min(100,(localTaps-lo)/(hi-lo)*100); $("stageFill").style.width=pct+"%";
+    $("stageNext").textContent="До следующей стадии: "+nf(Math.max(0,hi-localTaps))+" повторений"; }
+  else { $("stageFill").style.width="100%"; $("stageNext").textContent="🔥 Максимальная форма — BEAST MODE!"; }
+  $("taparea").classList.toggle("beast", ME.stage>=4);
   paintCommunity(ME.community);
 }
 
-// тап
 function onTap(e){
-  if(CFG.state!=="live"){ return; }
+  if(CFG.state!=="live") return;
   localTaps++; pending++;
   $("taps").textContent=nf(localTaps);
-  if(tg&&tg.HapticFeedback) tg.HapticFeedback.impactOccurred("light");
-  const t=e.touches? e.touches[0] : e;
+  if(tg&&tg.HapticFeedback) tg.HapticFeedback.impactOccurred("medium");
+  const t=e.touches? e.touches[0] : e, r=$("taparea").getBoundingClientRect();
   const f=document.createElement("div"); f.className="float"; f.textContent="+1";
-  const r=$("taparea").getBoundingClientRect();
-  f.style.left=((t?t.clientX:r.left+r.width/2)-r.left-8)+"px";
-  f.style.top=((t?t.clientY:r.top+r.height/2)-r.top-20)+"px";
+  f.style.left=((t?t.clientX:r.left+r.width/2)-r.left-10)+"px";
+  f.style.top=((t?t.clientY:r.top+r.height/2)-r.top-24)+"px";
   $("taparea").appendChild(f); setTimeout(()=>f.remove(),800);
 }
 async function flush(){
-  if(sending || pending<=0 || !CFG || CFG.state!=="live") return;
+  if(sending||pending<=0||!CFG||CFG.state!=="live") return;
   sending=true; const n=pending; pending=0;
   try{
     const r=await api("/api/tap","POST",{n});
-    localTaps=r.taps; ME.taps=r.taps; ME.points=r.points; ME.stage=r.stage; ME.stage_ex=r.stage_ex; ME.next_stage_at=r.next_stage_at; ME.community=r.community;
-    $("points").textContent=nf(r.points); $("rank").textContent="…";
-    paintStage(r.taps, r.stage, r.stage_ex, r.next_stage_at); paintCommunity(r.community);
+    localTaps=r.taps; ME.taps=r.taps; ME.points=r.points; ME.stage=r.stage; ME.stage_ex=r.stage_ex; ME.community=r.community;
+    if(!$("tapScreen").classList.contains("hidden")) paintTap();
     if(r.loot){ showLoot(r.loot); }
-  }catch(e){ /* тихо */ }
+  }catch(e){}
   sending=false;
 }
 function showLoot(loot){
-  if(loot.type==="points"){ toast("⚡", loot.title, "Лут-дроп!"); }
-  else { toast("🎟️", "Промокод "+loot.code, loot.desc+" · "+loot.ttl_h+" ч"); }
+  if(loot.type==="points") toast("⚡", loot.title, "Лут-дроп!");
+  else toast("🎟️", "Промокод "+loot.code, loot.desc+" · действует "+loot.ttl_h+" ч");
 }
-setInterval(flush, 800);
+setInterval(flush, 700);
 
-// задания
 function paintTasks(){
   const ci=ME.checked_in_today;
-  $("chkBtn").disabled=ci; $("chkBtn").textContent=ci?"Готово":"Отметиться";
+  $("chkBtn").disabled=ci; $("chkBtn").textContent=ci?"Готово ✓":"Отметиться";
   $("chkHint").textContent=(ME.streak>0?("🔥 Серия "+ME.streak+" дн. · "):"")+(ci?"отметка есть":"+100 за заход");
   $("subBtn").disabled=ME.sub_ok; if(ME.sub_ok) $("subBtn").textContent="Подписка засчитана ✓";
 }
@@ -255,10 +279,10 @@ $("chkBtn").onclick=async()=>{ $("chkBtn").disabled=true;
     toast("✅","+"+r.added+" баллов", r.bonus>0?("🔥 бонус серии +"+r.bonus):"Возвращайся завтра"); paintTasks(); }
   catch(e){ toast("⚠️",e.message,""); $("chkBtn").disabled=false; } };
 $("subBtn").onclick=async()=>{
-  if(ME.channel){ openLink("https://t.me/"+ME.channel.replace("@","")); }
+  if(ME.channel) openLink("https://t.me/"+ME.channel.replace("@",""));
   try{ const r=await api("/api/subscribe","POST",{});
     if(r.ok){ if(!r.already){ ME.points+=(r.added||0); toast("📣","+"+(r.added||0)+" баллов","Спасибо за подписку!"); } ME.sub_ok=true; paintTasks(); }
-    else { toast("👀","Не вижу подписки","Подпишись на канал и нажми ещё раз"); }
+    else toast("👀","Не вижу подписки","Подпишись на канал и нажми ещё раз");
   }catch(e){ toast("⚠️",e.message,""); } };
 $("refBtn").onclick=()=>{
   if(!ME||!ME.referral_link) return;
@@ -266,14 +290,16 @@ $("refBtn").onclick=()=>{
     "&text="+encodeURIComponent("Качаю носорога в «Прайм Качалке» от PRIMEKRAFT 🦏 Залетай — тапай и лови призы!");
   if(tg&&tg.openTelegramLink) tg.openTelegramLink(share); else openLink(share);
 };
+$("toQuizBtn").onclick=()=>go("quiz");
 
 async function renderQuiz(){
   const d=await api("/api/quizzes");
   const answered=d.questions.filter(q=>q.answered);
   const open=d.questions.filter(q=>!q.answered).slice(0, d.remaining);
+  $("quizDot").classList.toggle("hidden", d.remaining<=0);
   const head = d.remaining>0
-    ? `<div class="sub" style="margin-bottom:8px;color:var(--yellow);font-weight:800">Вопрос дня · осталось ${d.remaining} из ${d.daily_limit}</div>`
-    : `<div class="sub" style="margin-bottom:8px;color:var(--yellow);font-weight:800">На сегодня всё — заходи завтра 💪</div>`;
+    ? `<span class="pill">Осталось сегодня: ${d.remaining} из ${d.daily_limit}</span>`
+    : `<span class="pill">На сегодня всё — заходи завтра 💪</span>`;
   function active(q){
     const idx=q.options.map((_,i)=>i);
     for(let i=idx.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]];}
@@ -285,8 +311,9 @@ async function renderQuiz(){
       q.options.map((o,i)=>`<div class="qo ${i===q.correct_index?'correct':''}">${o}${i===q.correct_index?' ✓':''}</div>`).join("")+
       `<div class="sub" style="color:${q.was_correct?'#2FA97B':'#ff6b6b'};margin-top:2px">${q.was_correct?'Верно · +'+d.points:'Был неверный ответ'}</div></div>`;
   }
-  $("quizBox").innerHTML = head + open.map(active).join("") +
-    (answered.length?`<div class="sub" style="margin:12px 0 6px;font-weight:800">Пройденные</div>`:"") + answered.map(done).join("");
+  $("quizBox").innerHTML = head + (open.length?"":`<div class="sub" style="margin:10px 0">Сегодня вопросов больше нет — возвращайся завтра за новыми.</div>`) +
+    open.map(active).join("") +
+    (answered.length?`<div class="sub" style="margin:14px 0 6px;font-weight:800">Пройденные</div>`:"") + answered.map(done).join("");
   $("quizBox").querySelectorAll(".quizq[data-id]").forEach(card=>{
     card.querySelectorAll(".qo").forEach(b=>b.onclick=async()=>{
       card.querySelectorAll(".qo").forEach(x=>x.disabled=true);
@@ -309,23 +336,23 @@ async function loadLeaderboard(){
     <span class="nm">${t.first_name||'Игрок'}</span><span class="pts">${nf(t.points)}</span></div>`).join("") || '<div class="sub">Пока пусто — стань первым!</div>';
 }
 
-function gate(title, textHtml){ $("gateTitle").textContent=title; $("gateText").innerHTML=textHtml; $("nav").classList.add("hidden"); show("gate"); }
+function gate(title, textHtml){ $("gateImg").src=RHINO_IMG; $("gateTitle").textContent=title; $("gateText").innerHTML=textHtml; $("nav").classList.add("hidden"); show("gate"); }
 
 async function boot(){
   CFG=await api("/api/config"); SHOP=CFG.shop||SHOP;
-  $("commGoal").textContent=nf(CFG.goal); if($("commGoal2")) $("commGoal2").textContent=nf(CFG.goal);
+  $("rhinoImg").src=RHINO_IMG;
   ME=await api("/api/me");
   await checkReferral();
-  if(CFG.state==="before"){ gate("Скоро старт!", "Прайм Качалка стартует <b>20 августа</b>. Возвращайся качать носорога и бить рекорд на 1 000 000 повторений 🦏"); return; }
-  if(CFG.state==="frozen"){ $("nav").classList.remove("hidden"); localTaps=ME.taps; paintTap(); go("rank");
+  if(CFG.state==="before"){ gate("Скоро старт!", "Прайм Качалка стартует <b>20 августа</b>. Готовь пальцы — будем качать носорога и бить рекорд на 1 000 000 повторений 🦏"); return; }
+  if(CFG.state==="frozen"){ localTaps=ME.taps; $("nav").classList.remove("hidden"); go("rank");
     toast("🏁","Игра завершена","Итоги — на финальном эфире"); return; }
-  localTaps=ME.taps; paintTap();
+  localTaps=ME.taps;
   $("nav").classList.remove("hidden"); go("tap");
   const a=$("taparea");
   a.addEventListener("touchstart",e=>{e.preventDefault();for(let i=0;i<e.changedTouches.length;i++)onTap(e.changedTouches[i]);},{passive:false});
   a.addEventListener("mousedown",onTap);
-  // обновляем ранг после серии тапов
-  setInterval(async()=>{ if(CFG.state==="live"){ try{const m=await api("/api/me"); ME.rank=m.rank; ME.points=m.points; if(!$("tapScreen").classList.contains("hidden")){$("rank").textContent=m.rank;$("points").textContent=nf(m.points);} }catch(e){} } }, 5000);
+  setInterval(async()=>{ if(CFG.state==="live"){ try{const m=await api("/api/me"); ME.rank=m.rank; ME.points=m.points;
+    if(!$("tapScreen").classList.contains("hidden")){$("rank").textContent=m.rank;$("points").textContent=nf(m.points);} }catch(e){} } }, 5000);
 }
 let refDone=false;
 async function checkReferral(){
